@@ -12,9 +12,8 @@ class Records extends Component {
         <nav style={styles.nav}>
           <RecordSelectableList/>
         </nav>
-        <main>
-          <h1>content</h1>
-            <Route exact path='/records/:id' component={RecordDetail}/>
+        <main style={styles.mainContent}>
+          <Route exact path='/records/:id' component={RecordDetail}/>
         </main>
       </div>
     );

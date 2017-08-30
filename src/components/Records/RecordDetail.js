@@ -7,6 +7,7 @@ import { gql, graphql, compose } from 'react-apollo';
 import loadersCSS from 'loaders.css/loaders.min.css';
 import moment from 'moment';
 import GoogleMap from 'google-map-react';
+import Marker from './Marker';
 
 class RecordDetail extends Component {
   static defaultProps = {
@@ -19,15 +20,21 @@ class RecordDetail extends Component {
 
   constructor(props) {
     super(props);
+    this.state = props;
 
   }
 
-  componentWillMount() {
+  componentWillReceiveProps({ data }) {
+    //!state.apollo.data.loading && state.apollo.data.record.recordData.length ? [state.apollo.data.record.recordData[0].lat, state.apollo.data.record.recordData[0].long] : []
+    if (!data.loading && data.record.recordData) {
+      if (data.record.recordData.length) {
+        const center = [data.record.recordData[0].lat, data.record.recordData[0].long];
+        this.setState((prev, props) => ({ center }));
+      }
+    }
   }
-
 
   getDate = (date) => {
-    console.log(moment(date, 'x'));
     return moment(date, 'x').format('DD.MM.YYYY HH:mm');
   };
 
@@ -36,25 +43,27 @@ class RecordDetail extends Component {
     let markers = [];
     if (!data.loading) {
       markers = data.record.recordData.map((el, index) => {
-        return (<span style={{ width: '10px', height: '10px', background: 'red', display: 'inline-block' }}
-                      key={index}
-                      lat={el.lat}
-                      lng={el.long}
-        ></span>)
+        return (<Marker
+          key={index}
+          lat={el.lat}
+          lng={el.long}
+          dataObject={el.dataObject}
+          bgGeoConfig={el.bgGeoConfig}
+      ></Marker>)
       });
 
       console.log(markers);
+      console.log(this.state.center);
     }
     return (
       <div style={styles.gmapsContainer}>
         <GoogleMap
           apiKey={'AIzaSyDMOwTZ34ZMxKgERARKpRvW1bdygthR28g'}
-          center={this.props.center}
+          center={this.state.center}
           zoom={this.props.zoom}
         >
           {markers}
         </GoogleMap>
-        <h5>{JSON.stringify(data.record)}</h5>
       </div>
     );
   }
@@ -63,8 +72,7 @@ class RecordDetail extends Component {
 
 const styles = {
   gmapsContainer: {
-    width: '1000px',
-    height: '600px'
+    height: '100%'
   }
 };
 
@@ -91,19 +99,10 @@ const RECORD_QUERY = gql`
         }}
 `;
 
-const mapStateToProps = state => ({
-  markers: [{
-    position: {
-      lat: 25.0112183,
-      lng: 121.52067570000001,
-    },
-    key: `Taiwan`,
-    defaultAnimation: 2,
-  }]
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  onMapLoad: () => console.log('as')
+  centerMap: () => console.log('as')
 
 }, dispatch);
 
