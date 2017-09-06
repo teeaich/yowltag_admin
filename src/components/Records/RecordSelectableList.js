@@ -55,7 +55,6 @@ class RecordSelectableList extends Component {
 
   render() {
     const { data, showRecordDetail } = this.props;
-    debugger;
     return <SelectableList>
       <Subheader>Available records</Subheader>
       {(data.loading ?
@@ -67,7 +66,7 @@ class RecordSelectableList extends Component {
               primaryText={element.name}
               secondaryText={<div>
                 <span>{getDate(element.timestamp)}</span>
-                <Chip style={{position: 'absolute', right: '5px', bottom: '50%'}}>{(element.recordData.batteryDrain *100).toFixed(2)} %</Chip>
+                <Chip style={ styles.chip }>{(element.recordData.batteryDrain *100).toFixed(2)} %</Chip>
               </div>
               }
               secondaryTextLines={2}
@@ -79,7 +78,13 @@ class RecordSelectableList extends Component {
 }
 
 
-const styles = {};
+const styles = {
+  chip: {
+    position: 'absolute',
+    right: '5px',
+    bottom: '50%'
+  }
+};
 
 const RECORDS_QUERY = gql`
     query { records {

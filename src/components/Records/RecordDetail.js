@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
 import Subheader from 'material-ui/Subheader';
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
 import { Route, withRouter } from 'react-router-dom';
@@ -25,10 +33,10 @@ class RecordDetail extends Component {
   }
 
   componentWillReceiveProps({ data }) {
-    //!state.apollo.data.loading && state.apollo.data.record.recordData.length ? [state.apollo.data.record.recordData[0].lat, state.apollo.data.record.recordData[0].long] : []
-    if (!data.loading && data.record.recordData) {
-      if (data.record.recordData.length) {
-        const center = [data.record.recordData[0].lat, data.record.recordData[0].long];
+    const recordData = data.record.recordData.data;
+    if (!data.loading && recordData) {
+      if (recordData.length) {
+        const center = [recordData[0].lat, recordData[0].long];
         this.setState((prev, props) => ({ center }));
       }
     }
@@ -41,29 +49,60 @@ class RecordDetail extends Component {
   render() {
     const { data } = this.props;
     let markers = [];
+    let bgGeoConfigParsed;
     if (!data.loading) {
-      markers = data.record.recordData.map((el, index) => {
+      markers = data.record.recordData.data.map((el, index) => {
         return (<Marker
           key={index}
           lat={el.lat}
           lng={el.long}
           dataObject={el.dataObject}
           bgGeoConfig={el.bgGeoConfig}
-      ></Marker>)
+        ></Marker>)
       });
-
-      console.log(markers);
-      console.log(this.state.center);
+      bgGeoConfigParsed = JSON.parse(data.record.recordData.bgGeoConfig);
     }
     return (
-      <div style={styles.gmapsContainer}>
-        <GoogleMap
-          apiKey={'AIzaSyDMOwTZ34ZMxKgERARKpRvW1bdygthR28g'}
-          center={this.state.center}
-          zoom={this.props.zoom}
-        >
-          {markers}
-        </GoogleMap>
+      <div style={styles.contentContainer}>
+        <div style={styles.gmapsContainer}>
+          <GoogleMap
+            apiKey={'AIzaSyDMOwTZ34ZMxKgERARKpRvW1bdygthR28g'}
+            center={this.state.center}
+            zoom={this.props.zoom}
+          >
+            {markers}
+          </GoogleMap>
+        </div>
+        <div style={styles.infoContainer}>
+          <h1>Configuration</h1>
+          <Table
+            height={600}
+            fixedHeader={true}
+            selectable={false}>
+            <TableHeader
+              displaySelectAll={false}
+              adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn>Property</TableHeaderColumn>
+                <TableHeaderColumn>Value</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody
+              displayRowCheckbox={false}>
+              {!data.loading ? (
+                Object.entries(bgGeoConfigParsed).map(([key, value]) => (
+                  <TableRow key={key}>
+                    <TableRowColumn>{key.toString()}</TableRowColumn>
+                    <TableRowColumn>{value.toString()}</TableRowColumn>
+                  </TableRow>
+                ))
+              ) : (
+                <span>loading</span>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+
       </div>
     );
   }
@@ -71,8 +110,17 @@ class RecordDetail extends Component {
 
 
 const styles = {
-  gmapsContainer: {
+  contentContainer: {
+    display: 'flex',
+    flexDirection: 'row',
     height: '100%'
+  },
+  gmapsContainer: {
+    flex: 3,
+    height: '100%'
+  },
+  infoContainer: {
+    flex: 1
   }
 };
 
@@ -88,13 +136,15 @@ const RECORD_QUERY = gql`
             name,
             timestamp,
             recordData {
-                id,
-                recordId,
-                lat,
-                long,
-                timestamp,
-                dataObject,
-                bgGeoConfig
+                bgGeoConfig,
+                data {
+                    id,
+                    lat,
+                    long,
+                    dataObject,
+                    bgGeoConfig,
+                    timestamp
+                }
             }
         }}
 `;
@@ -102,7 +152,6 @@ const RECORD_QUERY = gql`
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  centerMap: () => console.log('as')
 
 }, dispatch);
 

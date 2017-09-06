@@ -11,7 +11,6 @@ const Marker = ({bgGeoConfig, dataObject, key}) => {
   // const bgGeoConfigParsed = JSON.parse(bgGeoConfig);
   const dataObjectParsed = JSON.parse(dataObject);
   const randomString = Math.random().toString(36).substring(7);
-  console.log(dataObjectParsed);
  return (
    <div style={styles.marker}
         data-tip data-for={randomString}>
