@@ -17,6 +17,8 @@ import moment from 'moment';
 import GoogleMap from 'google-map-react';
 import Marker from './Marker';
 
+import styles from './RecordDetail.css';
+
 class RecordDetail extends Component {
   static defaultProps = {
     center: [37.34520782, -122.0960117],
@@ -63,8 +65,8 @@ class RecordDetail extends Component {
       bgGeoConfigParsed = JSON.parse(data.record.recordData.bgGeoConfig);
     }
     return (
-      <div style={styles.contentContainer}>
-        <div style={styles.gmapsContainer}>
+      <div className={styles.contentContainer}>
+        <div className={styles.gmapsContainer}>
           <GoogleMap
             apiKey={'AIzaSyDMOwTZ34ZMxKgERARKpRvW1bdygthR28g'}
             center={this.state.center}
@@ -73,10 +75,10 @@ class RecordDetail extends Component {
             {markers}
           </GoogleMap>
         </div>
-        <div style={styles.infoContainer}>
+        <div className={styles.infoContainer}>
           <h1 className="headline">Configuration</h1>
           <Table
-            height={'calc(100vh - 191px)'}
+            height={'calc(100vh - 203px)'}
             fixedHeader={true}
             selectable={false}>
             <TableHeader
@@ -107,23 +109,6 @@ class RecordDetail extends Component {
     );
   }
 }
-
-
-const styles = {
-  contentContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    height: '100%'
-  },
-  gmapsContainer: {
-    flex: 3,
-    height: '100%'
-  },
-  infoContainer: {
-    flex: 1
-
-  }
-};
 
 const RECORD_QUERY = gql`
     query record($id: ID!) {

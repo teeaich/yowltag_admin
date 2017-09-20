@@ -1,0 +1,28 @@
+.contentContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+@media (min-width: 886px) {
+    .contentContainer {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+    }
+}
+
+.gmapsContainer {
+    height: 400px;
+}
+
+@media (min-width: 886px) {
+    .gmapsContainer {
+        flex: 3;
+        height: 100%;
+    }
+}
+
+.infoContainer {
+    flex: 1;
+}

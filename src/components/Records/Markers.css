@@ -1,0 +1,8 @@
+.markers {
+    display: inline-block;
+    background: #00bcd4;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+}

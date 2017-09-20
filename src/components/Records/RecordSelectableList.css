@@ -1,0 +1,49 @@
+
+.listContainer {
+    display: none;
+}
+
+.listContainer__visible {
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 999;
+    background: white;
+    height: 100%;
+}
+
+@media (min-width: 886px) {
+    .listContainer {
+        display: block;
+    }
+}
+
+.toggleListButton {
+    margin: 20px;
+    margin-left: 40%;
+    display: inline-block;
+}
+
+@media (min-width: 866px) {
+    .toggleListButton {
+        display: none;
+    }
+}
+
+.closeButton {
+    float: right;
+}
+
+@media (min-width: 886px) {
+    .closeButton {
+        display: none;
+    }
+}
+
+.chip {
+position: absolute;
+right: 5px;
+bottom: 50%;
+}

@@ -1,0 +1,29 @@
+.navContent {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+@media (min-width: 886px) {
+    .navContent {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+    }
+}
+
+.mainContent {
+    flex: 1;
+}
+
+.nav {
+
+}
+
+@media (min-width: 886px ) {
+    .nav {
+        flex: 0 0 25vw;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}

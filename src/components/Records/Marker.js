@@ -2,6 +2,8 @@ import React from 'react';
 import ReactTooltip from 'react-tooltip'
 import moment from 'moment';
 
+import styles from './Markers.css'
+
 
 function getDate(date) {
   return moment(date).format('DD.MM.YYYY HH:mm');
@@ -12,7 +14,7 @@ const Marker = ({bgGeoConfig, dataObject, key}) => {
   const dataObjectParsed = JSON.parse(dataObject);
   const randomString = Math.random().toString(36).substring(7);
  return (
-   <div style={styles.marker}
+   <div className={styles.markers}
         data-tip data-for={randomString}>
      <ReactTooltip id={randomString} type='warning' effect='solid'>
        <div>time:  {getDate(dataObjectParsed.timestamp)}</div>
@@ -26,16 +28,6 @@ const Marker = ({bgGeoConfig, dataObject, key}) => {
      </ReactTooltip>
    </div>
  )
-};
-const styles = {
-  marker: {
-    display: 'inline-block',
-    background: '#00bcd4',
-    height: '10px',
-    width: '10px',
-    borderRadius: '50%',
-    cursor: 'pointer'
-  },
 };
 
 export default Marker;
