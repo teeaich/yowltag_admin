@@ -74,9 +74,9 @@ class RecordDetail extends Component {
           </GoogleMap>
         </div>
         <div style={styles.infoContainer}>
-          <h1>Configuration</h1>
+          <h1 className="headline">Configuration</h1>
           <Table
-            height={600}
+            height={'calc(100vh - 191px)'}
             fixedHeader={true}
             selectable={false}>
             <TableHeader
@@ -121,6 +121,7 @@ const styles = {
   },
   infoContainer: {
     flex: 1
+
   }
 };
 

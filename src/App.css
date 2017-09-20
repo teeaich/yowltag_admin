@@ -10,6 +10,14 @@ body > div {
   flex: 1;
 }
 
+h1.headline {
+  padding: 0;
+  box-sizing: border-box;
+  margin: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  color: rgba(0, 0, 0, 0.87);
+}
 .ball-clip-rotate-multiple > div {
   background-color: #00bcd4;
 }

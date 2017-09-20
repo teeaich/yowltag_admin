@@ -26,7 +26,9 @@ const styles = {
     flex: 1,
   },
   nav: {
-    flex: '0 0 25em'
+    flex: '0 0 25em',
+    overflowX: 'hidden',
+    overflowY: 'auto'
   },
   mainContent: {
     flex: 1,

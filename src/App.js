@@ -38,6 +38,7 @@ const styles = {
   appContent: {
     display: 'flex',
     flex: 1,
+    height: 'calc(100vh - 64px)'
   }
 };
 
